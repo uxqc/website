@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8">
+    <title>Discord Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --profile-gradient-primary-color: #2b2d31;
+            --profile-gradient-secondary-color: #2b2d31;
+            --profile-gradient-overlay-color: rgba(0, 0, 0, 0);
+            --profile-gradient-button-color: #1e1f22;
+            --interactive-active: #dcddde;
+            --header-secondary: #a7a7a7;
+            --discord-purple: #5865F2;
+            --discord-green: #57F287;
+        }
+
+        body {
+            transform: scale(0.8);
+            transform-origin: top center;
+            width: 125%;
+            height: 125%;
+            position: relative;
+            top: -12.5%;
+            left: -12.5%;
+            overflow-x: hidden;
+            background-image: url('background.gif');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .profile-gradient {
+            background: linear-gradient(to bottom, var(--profile-gradient-primary-color) 0%, var(--profile-gradient-secondary-color) 100%);
+        }
+        
+        .avatar-mask {
+            mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='60' cy='60' r='60'/%3E%3C/svg%3E");
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='60' cy='60' r='60'/%3E%3C/svg%3E");
+        }
+        
+        .status-dnd {
+            background-color: #ed4245;
+        }
+        
+        .scroller-thin::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        .scroller-thin::-webkit-scrollbar-thumb {
+            background-color: #202225;
+            border-radius: 4px;
+            min-height: 40px;
+            border: 2px solid #2f3136;
+        }
+        
+        .scroller-thin::-webkit-scrollbar-track {
+            background-color: #2f3136;
+        }
+        
+        .activity-item {
+            background-color: #2b2d31;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+
+        /* --- Connections Styles --- */
+        .connectedAccounts_e6abe8 {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .connectedAccountsColumn_e6abe8 {
+            flex: 1 1 48%;
+            min-width: 180px;
+        }
+
+        .connectedAccountContainer_e6abe8 {
+            list-style: none;
+            margin-bottom: 12px;
+        }
+
+        .connectedAccount_e6abe8 {
+            display: flex;
+            align-items: center;
+            background-color: #2b2d31;
+            border-radius: 8px;
+            padding: 8px 12px;
+            position: relative;
+        }
+
+        .connectedAccountIcon_e6abe8 {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        .connectedAccountNameContainer_e6abe8 {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .connectedAccountName_e6abe8 {
+            display: flex;
+            align-items: center;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            font-weight: 500;
+            color: var(--interactive-active);
+        }
+        
+        .connectedAccountNameText_e6abe8 {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: calc(100% - 20px);
+        }
+
+        .flowerStarContainer__3e3b0 {
+            margin-left: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .flowerStar__3e3b0 path {
+            fill: #43b581;
+        }
+        .flowerStar__3e3b0 .childContainer__3e3b0 path {
+            fill: #e3e3e6;
+        }
+
+        .connectedAccountOpenIcon_e6abe8 {
+            position: absolute;
+            right: 12px;
+            color: #b5bac1;
+        }
+
+        .connectedAccountOpenIcon_e6abe8:hover {
+            color: white;
+        }
+
+        .anchor_edefb8 {
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .anchorUnderlineOnHover_edefb8:hover {
+            text-decoration: underline;
+        }
+
+        .connectedAccountChildren_e6abe8 {
+            margin-top: 8px;
+            padding-left: 34px;
+        }
+
+        .connectedAccountVanityMetadata_fffe42 {
+            font-size: 0.75rem;
+            line-height: 1rem;
+            color: var(--interactive-active);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+        }
+
+        .connectedAccountVanityMetadataItem_fffe42 {
+            margin-top: 4px;
+        }
+
+        .connectedAccountVanityMetadataItemIcon_fffe42 {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            margin-right: 6px;
+        }
+
+        ol, ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        /* --- End Connections Styles --- */
+
+        /* Music Player Styling */
+        .discord-music-player {
+            background-color: #2b2d31;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .player-cover {
+            width: 60px;
+            height: 60px;
+            border-radius: 6px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        
+        .player-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .player-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #e6e6e6;
+        }
+        
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        
+        .control-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #3c3f45;
+            border: none;
+            color: #b5bac1;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        
+        .control-btn:hover {
+            background: #4a4e55;
+            color: white;
+        }
+        
+        .play-btn {
+            background: var(--discord-green);
+            color: #2b2d31;
+        }
+        
+        .play-btn:hover {
+            background: #4ae28c;
+        }
+        
+        .progress-container {
+            flex-grow: 1;
+            height: 4px;
+            background: #3c3f45;
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: var(--discord-purple);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+        
+        .time-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: #b5bac1;
+            margin-top: 4px;
+        }
+        
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .volume-btn {
+            color: #b5bac1;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .volume-btn:hover {
+            color: white;
+        }
+        
+        .volume-slider {
+            width: 80px;
+            -webkit-appearance: none;
+            height: 4px;
+            border-radius: 2px;
+            background: #3c3f45;
+            outline: none;
+        }
+        
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+        }
+
+        .visualizer {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 30px;
+            gap: 2px;
+            margin-top: 5px;
+        }
+        
+        .bar {
+            width: 3px;
+            background: var(--discord-purple);
+            border-radius: 2px;
+            height: 10px;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+        
+        .bar:nth-child(2) { animation-delay: 0.2s; height: 15px; }
+        .bar:nth-child(3) { animation-delay: 0.4s; height: 20px; }
+        .bar:nth-child(4) { animation-delay: 0.6s; height: 25px; }
+        .bar:nth-child(5) { animation-delay: 0.8s; height: 30px; }
+        .bar:nth-child(6) { animation-delay: 1.0s; height: 25px; }
+        .bar:nth-child(7) { animation-delay: 1.2s; height: 20px; }
+        .bar:nth-child(8) { animation-delay: 1.4s; height: 15px; }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(0.6); }
+        }
+
+        @media (max-width: 640px) {
+            .profile-modal {
+                width: 100%;
+                height: 100%;
+                border-radius: 0;
+            }
+            .connectedAccounts_e6abe8 {
+                flex-direction: column;
+                gap: 0;
+            }
+            .connectedAccountsColumn_e6abe8 {
+                min-width: unset;
+                flex: none;
+            }
+            .discord-music-player {
+                flex-direction: row;
+                padding: 10px;
+                gap: 10px;
+            }
+            .player-cover {
+                width: 50px;
+                height: 50px;
+            }
+            .volume-slider {
+                width: 60px;
+            }
+            .player-title {
+                font-size: 0.8rem;
+            }
+            .control-btn {
+                width: 28px;
+                height: 28px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body class="text-white overflow-hidden flex items-center justify-center min-h-screen flex-col">
+    <div class="focusLock w-full max-w-[600px] mx-auto" role="dialog" aria-label="User's profile" tabindex="-1" aria-modal="true">
+        <div class="root opacity-100 scale-100 transform transition-all duration-200 ease-out">
+            <div class="profile-gradient outer bg-[#313338] rounded-lg shadow-xl overflow-hidden">
+                <div class="inner">
+                    <header>
+                        <div class="w-full h-[210px] min-h-[210px] relative bg-[#0a0a0a] overflow-hidden">
+                            <img src="banner.gif" alt="User Banner" class="w-full h-full object-cover">
+                        </div>
+                        
+                        <div class="avatar absolute left-4" style="z-index: 10; top: calc(210px - 60px);"> 
+                            <div class="relative">
+                                <div class="avatar-mask w-[120px] h-[120px] overflow-hidden rounded-full border-4 border-[#313338]">
+                                    <img src="pfp.webp" alt="Profile" class="w-full h-full object-cover">
+                                </div>
+                                <div class="status-dnd absolute bottom-0 right-0 w-6 h-6 rounded-full border-4 border-[#313338]"></div>
+                            </div>
+                        </div>
+
+                        <div class="headerInner px-4 pb-4 pt-[72px]"> 
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <div class="defaultColor text-xl font-bold">Equal</div> 
+                                    </div>
+                                    
+                                    <div class="tags flex flex-wrap items-center gap-2 mb-4">
+                                        <div class="info bg-[#383a40] rounded px-1.5 py-0.5 text-xs">2vvq</div> 
+                                        <div class="chiplet bg-[#5865f2] rounded px-1.5 py-0.5 text-xs flex items-center gap-1">
+                                            <img src="https://cdn.discordapp.com/clan-badges/1343597481891729499/5f0404ec39b6724bf523b9ece78ccbd6.png" alt="Badge" class="w-3 h-3">
+                                            <span>DDOS</span>
+                                        </div>
+                                        <div class="badges flex items-center gap-1">
+                                            <img src="https://cdn.discordapp.com/badge-icons/8a88d63823d8a71cd5e390baa45efa02.png" alt="HypeSquad" class="w-5 h-5">
+                                            <img src="https://cdn.discordapp.com/badge-icons/7d9ae358c8c5e118768335dbe68b4fb8.png" alt="Quest" class="w-5 h-5">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                    
+                    <div class="body px-4 pb-4">
+                        <div class="tabBar flex border-b border-[#3e4147] mb-4">
+                            <div class="tabBarItem text-sm font-medium px-4 py-2 text-[#b5bac1] hover:text-white cursor-pointer border-b-2 border-[#5865f2] text-white" data-tab="about-me">About Me</div>
+                            <div class="tabBarItem text-sm font-medium px-4 py-2 text-[#b5bac1] hover:text-white cursor-pointer" data-tab="activity">Activity</div>
+                        </div>
+                        
+                        <div class="scroller-thin overflow-y-auto max-h-[300px] pr-2">
+                            <div id="about-me" class="tab-content">
+                                <section class="section mb-4">
+                                    <div class="headings mb-1">
+                                        <h1 class="text-xs font-semibold text-[#b5bac1]">Member Since</h1>
+                                    </div>
+                                    <div class="text-sm">Mar 16, 2023</div> 
+                                </section>
+                                
+                                <section class="section mb-4">
+                                    <div class="headings mb-1">
+                                        <h1 class="text-xs font-semibold text-[#b5bac1] uppercase">Connections</h1>
+                                    </div>
+                                    <ul class="connectedAccounts_e6abe8">
+                                        <div class="connectedAccountsColumn_e6abe8">
+                                            <li class="connectedAccountContainer_e6abe8 connectedAccountContainerWithMetadata_e6abe8">
+                                                <div class="connectedAccount_e6abe8">
+                                                    <img aria-label="Steam" alt="Steam Logo" class="connectedAccountIcon_e6abe8" src="yt.svg">
+                                                    <div class="connectedAccountNameContainer_e6abe8">
+                                                        <div class="connectedAccountName_e6abe8">
+                                                            <div class="text-sm connectedAccountNameText_e6abe8" aria-label="YouTube" data-text-variant="text-sm/medium" style="color: var(--interactive-active);">YouTube</div>
+                                                            <div class="flowerStarContainer__3e3b0 connectedAccountVerifiedIcon_e6abe8" style="width: 16px; height: 16px;">
+                                                                <svg aria-label="Verified Connection" class="flowerStar__3e3b0" aria-hidden="false" role="img" width="16" height="16" viewBox="0 0 16 15.2"><path fill="hsla(227, 8.3%, 32.9%, 1)" fill-rule="evenodd" d="m16 7.6c0 .79-1.28 1.38-1.52 2.09s.44 2 0 2.59-1.84.35-2.46.8-.79 1.84-1.54 2.09-1.67-.8-2.47-.8-1.75 1-2.47.8-.92-1.64-1.54-2.09-2-.18-2.46-.8.23-1.84 0-2.59-1.54-1.3-1.54-2.09 1.28-1.38 1.52-2.09-.44-2 0-2.59 1.85-.35 2.48-.8.78-1.84 1.53-2.12 1.67.83 2.47.83 1.75-1 2.47-.8.91 1.64 1.53 2.09 2 .18 2.46.8-.23 1.84 0 2.59 1.54 1.3 1.54 2.09z"></path></svg><div class="childContainer__3e3b0 redesignIconChildContainer__3e3b0"><svg aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24"><path fill="#e3e3e6" fill-rule="evenodd" d="M18.7 7.3a1 1 0 0 1 0 1.4l-8 8a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.4l3.3 3.29 7.3-7.3a1 1 0 0 1 1.4 0Z" clip-rule="evenodd" class=""></path></svg></div></div>
+                                                        </div>
+                                                        <a class="anchor_edefb8 anchorUnderlineOnHover_edefb8" aria-label="YouTube, Open in Browser" href="https://www.youtube.com/channel/UCPGq5aI894K7cr0xvu0vJZQ" rel="noreferrer noopener" target="_blank" role="button" tabindex="0">
+                                                            <svg aria-hidden="true" role="img" width="24" height="24" class="connectedAccountOpenIcon_e6abe8 right_caab99" viewBox="0 0 24 24"><polygon fill="currentColor" fill-rule="nonzero" points="13 20 11 20 11 8 5.5 13.5 4.08 12.08 12 4.16 19.92 12.08 18.5 13.5 13 8"></polygon></svg>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </div>
+                                        <div class="connectedAccountsColumn_e6abe8">
+                                            <li class="connectedAccountContainer_e6abe8 connectedAccountContainerWithMetadata_e6abe8">
+                                                <div class="connectedAccount_e6abe8">
+                                                    <img aria-label="TikTok" alt="TikTok Logo" class="connectedAccountIcon_e6abe8" src="tt.svg">
+                                                    <div class="connectedAccountNameContainer_e6abe8">
+                                                        <div class="connectedAccountName_e6abe8">
+                                                            <div class="text-sm connectedAccountNameText_e6abe8" aria-label="TikTok‍‍‍‍‍‍‍‍" data-text-variant="text-sm/medium" style="color: var(--interactive-active);">TikTok‍‍‍‍‍‍‍‍</div>
+                                                            <div class="flowerStarContainer__3e3b0 connectedAccountVerifiedIcon_e6abe8" style="width: 16px; height: 16px;">
+                                                                <svg aria-label="Verified Connection" class="flowerStar__3e3b0" aria-hidden="false" role="img" width="16" height="16" viewBox="0 0 16 15.2"><path fill="hsla(227, 8.3%, 32.9%, 1)" fill-rule="evenodd" d="m16 7.6c0 .79-1.28 1.38-1.52 2.09s.44 2 0 2.59-1.84.35-2.46.8-.79 1.84-1.54 2.09-1.67-.8-2.47-.8-1.75 1-2.47.8-.92-1.64-1.54-2.09-2-.18-2.46-.8.23-1.84 0-2.59-1.54-1.3-1.54-2.09 1.28-1.38 1.52-2.09-.44-2 0-2.59 1.85-.35 2.48-.8.78-1.84 1.53-2.12 1.67.83 2.47.83 1.75-1 2.47-.8.91 1.64 1.53 2.09 2 .18 2.46.8-.23 1.84 0 2.59 1.54 1.3 1.54 2.09z"></path></svg><div class="childContainer__3e3b0 redesignIconChildContainer__3e3b0"><svg aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24"><path fill="#e3e3e6" fill-rule="evenodd" d="M18.7 7.3a1 1 0 0 1 0 1.4l-8 8a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.4l3.3 3.29 7.3-7.3a1 1 0 0 1 1.4 0Z" clip-rule="evenodd" class=""></path></svg></div></div>
+                                                        </div>
+                                                        <a class="anchor_edefb8 anchorUnderlineOnHover_edefb8" aria-label="TikTok, TikTok‍‍‍‍‍‍‍‍, Open in Browser" href="https://www.tiktok.com/@uxqcs" rel="noreferrer noopener" target="_blank" role="button" tabindex="0">
+                                                            <svg aria-hidden="true" role="img" width="24" height="24" class="connectedAccountOpenIcon_e6abe8 right_caab99" viewBox="0 0 24 24"><polygon fill="currentColor" fill-rule="nonzero" points="13 20 11 20 11 8 5.5 13.5 4.08 12.08 12 4.16 19.92 12.08 18.5 13.5 13 8"></polygon></svg>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </div>
+                                    </ul>
+                                </section>
+                            </div>
+
+                            <div id="activity" class="tab-content hidden">
+                                <section class="section mb-4">
+                                    <div class="headings mb-1">
+                                        <h1 class="text-xs font-semibold text-[#b5bac1] uppercase">Activity</h1>
+                                    </div>
+                                    <div class="activity-item flex items-center">
+                                        <div class="w-12 h-12 rounded-lg mr-3 flex items-center justify-center bg-[#007ACC]">
+                                            <i class="fas fa-code text-white text-2xl"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-xs text-[#b5bac1]">EDITING</div>
+                                            <div class="font-semibold">Visual Studio Code</div>
+                                            <div class="text-sm text-[#b5bac1]">Working on a new project...</div>
+                                            <div class="text-xs text-[#b5bac1]">Elapsed: 3 hours</div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Discord-style Music Player with original sources -->
+    <div class="discord-music-player">
+        <img src="song.jpg" alt="Song Cover" class="player-cover"> 
+        <div class="player-info">
+            <div class="player-title">ElyOtto - SugarCrash! (Official Video)</div>
+            
+            <div class="visualizer">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            
+            <div class="player-controls">
+                <button class="control-btn" id="prevBtn">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="control-btn play-btn" id="playBtn">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="control-btn" id="nextBtn">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+                
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                
+                <div class="volume-container">
+                    <button class="volume-btn" id="volumeBtn">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.7">
+                </div>
+            </div>
+            
+            <div class="time-info">
+                <span id="currentTime">0:00</span>
+                <span id="duration">3:45</span>
+            </div>
+        </div>
+        
+        <audio id="audioPlayer" loop>
+            <source src="song.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        const tabs = document.querySelectorAll('.tabBarItem');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                tabs.forEach(t => {
+                    t.classList.remove('border-b-2', 'border-[#5865f2]', 'text-white');
+                    t.classList.add('text-[#b5bac1]');
+                });
+                
+                tabContents.forEach(content => {
+                    content.classList.add('hidden');
+                });
+                
+                this.classList.add('border-b-2', 'border-[#5865f2]', 'text-white');
+                this.classList.remove('text-[#b5bac1]');
+
+                const targetTab = this.dataset.tab;
+                document.getElementById(targetTab).classList.remove('hidden');
+            });
+        });
+
+        // Initialize to show About Me tab by default
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('.tabBarItem[data-tab="about-me"]').click();
+        });
+
+        // Music Player Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = document.getElementById('audioPlayer');
+            const playBtn = document.getElementById('playBtn');
+            const progressBar = document.getElementById('progressBar');
+            const progressContainer = document.getElementById('progressContainer');
+            const currentTimeEl = document.getElementById('currentTime');
+            const durationEl = document.getElementById('duration');
+            const volumeSlider = document.getElementById('volumeSlider');
+            const volumeBtn = document.getElementById('volumeBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            // Set audio to start after 1 second
+            setTimeout(() => {
+                const playPromise = audio.play();
+                
+                // If autoplay is blocked, show paused state
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Autoplay prevented, showing paused state");
+                        playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    }).then(() => {
+                        // Autoplay worked, show pause button
+                        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    });
+                }
+            }, 1000);
+            
+            // Play/Pause button
+            playBtn.addEventListener('click', function() {
+                if (audio.paused) {
+                    audio.play();
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                } else {
+                    audio.pause();
+                    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                }
+            });
+            
+            // Update progress bar
+            audio.addEventListener('timeupdate', function() {
+                const currentTime = audio.currentTime;
+                const duration = audio.duration;
+                const progressPercent = (currentTime / duration) * 100;
+                progressBar.style.width = `${progressPercent}%`;
+                
+                // Format time for display
+                currentTimeEl.textContent = formatTime(currentTime);
+                if (duration) {
+                    durationEl.textContent = formatTime(duration);
+                }
+            });
+            
+            // Set progress
+            progressContainer.addEventListener('click', function(e) {
+                const width = this.clientWidth;
+                const clickX = e.offsetX;
+                const duration = audio.duration;
+                
+                audio.currentTime = (clickX / width) * duration;
+            });
+            
+            // Volume control
+            volumeSlider.addEventListener('input', function() {
+                audio.volume = volumeSlider.value;
+                
+                // Update volume icon based on level
+                if (volumeSlider.value == 0) {
+                    volumeBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                } else if (volumeSlider.value < 0.5) {
+                    volumeBtn.innerHTML = '<i class="fas fa-volume-down"></i>';
+                } else {
+                    volumeBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                }
+            });
+            
+            // Mute button
+            volumeBtn.addEventListener('click', function() {
+                if (audio.volume > 0) {
+                    audio.volume = 0;
+                    volumeSlider.value = 0;
+                    volumeBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                } else {
+                    audio.volume = 0.7;
+                    volumeSlider.value = 0.7;
+                    volumeBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                }
+            });
+            
+            // Previous/Next buttons (simulated functionality)
+            prevBtn.addEventListener('click', function() {
+                audio.currentTime = 0;
+            });
+            
+            nextBtn.addEventListener('click', function() {
+                audio.currentTime = Math.min(audio.currentTime + 15, audio.duration);
+            });
+            
+            // Format time in minutes:seconds
+            function formatTime(seconds) {
+                const min = Math.floor(seconds / 60);
+                const sec = Math.floor(seconds % 60);
+                return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+            }
+            
+            // Update play/pause icon when audio ends
+            audio.addEventListener('ended', function() {
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            });
+        });
+    </script>
+</body>
+</html>
